@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e4de7e6-483e-4ba9-a5b9-2115e93cf394" name="Changes" comment="relazioni" />
+    <list default="true" id="1e4de7e6-483e-4ba9-a5b9-2115e93cf394" name="Changes" comment="relazioni">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/epicode/dao/LocationDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/epicode/dao/PartecipazioneDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/epicode/dao/PersonaDAO.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,12 +31,12 @@
     &quot;assignee&quot;: &quot;Ikadev95&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Ikadev95/DB-W3-D2.git&quot;,
-    &quot;accountId&quot;: &quot;15a0d796-433d-45b6-9150-3fd032e0bfe3&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Ikadev95/DB-W3-D3.git",
+    "accountId": "15a0d796-433d-45b6-9150-3fd032e0bfe3"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -49,6 +53,7 @@
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/chicca/Documents/java/DB-W3-D3",
     "settings.editor.selected.configurable": "preferences.pluginManager"
