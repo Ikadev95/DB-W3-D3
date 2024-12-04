@@ -1,70 +1,73 @@
 package it.epicode;
 
-import com.github.javafaker.Faker;
 import it.epicode.dao.EventoDAO;
+import it.epicode.dao.LocationDAO;
+import it.epicode.dao.PartecipazioneDAO;
+import it.epicode.dao.PersonaDAO;
 import it.epicode.entity.Evento;
+import it.epicode.entity.Location;
+import it.epicode.entity.Partecipazione;
+import it.epicode.entity.Persona;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 public class Application {
 
     public static void main(String[] args) {
-
+        // Creazione dell'EntityManager
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("unit-jpa");
-
         EntityManager em = emf.createEntityManager();
-        Faker faker = new Faker(new Locale("it"));
 
+        // Creazione degli oggetti DAO
+        PersonaDAO personaDAO = new PersonaDAO(em);
+        LocationDAO locationDAO = new LocationDAO(em);
         EventoDAO eventoDAO = new EventoDAO(em);
-        List<Evento> lista = new ArrayList<>();
-        LocalDate startDate = LocalDate.of(2020, 1, 1);
-        LocalDate endDate = LocalDate.of(2025, 12, 31);
+        PartecipazioneDAO partecipazioneDAO = new PartecipazioneDAO(em);
 
-        Date start = Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Date end = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        try {
+            // Creazione e salvataggio di una Location
+            Location location = new Location();
+            location.setNome("Auditorium");
+            location.setCitta("Roma");
+            locationDAO.saveLocation(location);
 
-        for (int i = 0; i < 10; i++) {
-            Evento e = new Evento();
-            e.setTitolo(faker.book().title());
-            e.setDescrizione(faker.lorem().sentence());
+            // Creazione e salvataggio di una Persona
+            Persona persona = new Persona();
+            persona.setNome("Giovanni");
+            persona.setCognome("Rossi");
+            persona.setEmail("giovanni.rossi@example.com");
+            persona.setDataDiNascita(LocalDate.of(1990, 5, 15));
+            persona.setSesso(SessoEnum.M);
+            personaDAO.savePerson(persona);
 
-            e.setDataEvento(faker.date().between(start, end)
-                    .toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            e.setNumeroMaxPartecipanti(faker.random().nextInt(10, 100));
-            e.setTipoEvento(TipoEventoEnum.PRIVATO);
+            // Creazione e salvataggio di un Evento
+            Evento evento = new Evento();
+            evento.setTitolo("Concerto di Natale");
+            evento.setDataEvento(LocalDate.of(2024, 12, 25));
+            evento.setDescrizione("Un evento imperdibile con musica natalizia");
+            evento.setTipoEvento(TipoEventoEnum.PUBBLICO);
+            evento.setNumeroMaxPartecipanti(200);
+            evento.setLocation(location); // Associa la location all'evento
+            eventoDAO.save(evento);
 
-            lista.add(e);
+            // Creazione e salvataggio di una Partecipazione
+            Partecipazione partecipazione = new Partecipazione();
+            partecipazione.setPersona(persona); // Associa la persona all'evento
+            partecipazione.setEvento(evento);   // Associa l'evento alla persona
+            partecipazione.setStato(StatoEnum.CONFERMATA);
+            partecipazioneDAO.savePart(partecipazione);
+
+            System.out.println("Persona, location ed evento salvati con successo!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Chiusura dell'EntityManager
+            em.close();
+            emf.close();
         }
-
-        eventoDAO.insertAll(lista);
-
-        Evento e = eventoDAO.getById(3L);
-        System.out.println(e);
-        eventoDAO.delete(3L);
-
-        Evento e1 = new Evento();
-        e1.setTitolo(faker.book().title());
-        e1.setDescrizione(faker.lorem().sentence());
-        e1.setDataEvento(faker.date().between(start, end)
-                .toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        e1.setNumeroMaxPartecipanti(faker.random().nextInt(10, 100));
-        e1.setTipoEvento(TipoEventoEnum.PRIVATO);
-        eventoDAO.save(e1);
-
-
-        eventoDAO.save(e1);
-
-        em.close();
-        emf.close();
-
-
     }
+
 }

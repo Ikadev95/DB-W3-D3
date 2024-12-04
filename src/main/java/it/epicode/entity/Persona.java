@@ -30,7 +30,7 @@ public class Persona {
 
     @Getter
     @Setter
-    @Column (name = "email", length = 12)
+    @Column (name = "email", length = 50)
     private String email;
 
     @Setter
